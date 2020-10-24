@@ -8,8 +8,6 @@ public class APIKeyAuthFilter extends AbstractPreAuthenticatedProcessingFilter {
     private String principalRequestHeader;
 
     public APIKeyAuthFilter(String principalRequestHeader) {
-      System.out.println("hiii2");
-
         this.principalRequestHeader = principalRequestHeader;
     }
 

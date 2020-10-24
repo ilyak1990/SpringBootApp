@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Companies</title>
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+      	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>    	
+      	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      	<script src="../js/login.js"></script>	
+</head>
+
+</head>
+<body>
+<th:block th:include="/_menu"></th:block>
+<div class="card">
+  <h3 class="card-header text-center font-weight-bold text-uppercase py-4">Companies</h3>
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      <span class="table-add float-right mb-3 mr-2"><a href="#!" class="text-success"><i
+            class="fas fa-plus fa-2x" aria-hidden="true"></i></a></span>
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <thead>
+          <tr>
+            <th class="text-center">Company Name</th>
+            <th class="text-center">Edit</th>
+            <th class="text-center">Remove</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="company : ${companies}"> 
+            <td th:text="${company.companyName}"></td>
+            <td>
+              <span class="table-remove"><button type="button"
+                  class="btn btn-primary btn-rounded btn-sm my-0">Edit</button></span>
+            </td>
+            <td>
+              <span class="table-remove"><button type="button"
+                  class="btn btn-danger btn-rounded btn-sm my-0">Remove</button></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+</body>
+</html>

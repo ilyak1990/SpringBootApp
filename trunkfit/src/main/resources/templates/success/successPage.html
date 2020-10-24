@@ -1,0 +1,19 @@
+       
+       <!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title>Success</title>
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+      	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>    	
+      	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      	<script src="../js/login.js"></script>	      
+   </head>
+    
+   <body>
+      <!-- Include _menu.html -->
+      <th:block th:include="/_menu"></th:block>
+      <h1 th:text="${actionMessage}"></h1>
+   </body>
+    
+</html>
+       

@@ -1,0 +1,41 @@
+ <div xmlns:th="http://www.thymeleaf.org"
+     style="margin-bottom:20px;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+     <ul class="navbar-nav mr-auto">
+     <li  class="nav-item"><a class="nav-item nav-link active" th:href="@{/}">Home<span class="sr-only">(current)</span></a></li>
+     <li  class="nav-item dropdown" th:if="${@mainController.hasNecessaryRole(#request.userPrincipal,'ROLE_USER')}"> 
+     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">User</a>
+       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Edit User</a>
+        </div>
+     </li>
+          <li  class="nav-item dropdown" th:if="${@mainController.hasNecessaryRole(#request.userPrincipal,'ROLE_ADMIN')}"> 
+     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="@{/createUser}">Create User</a>
+          <a class="dropdown-item" href="@{/approveUser}">Approve User</a>
+          <a class="dropdown-item" href="#">Deactivate User</a>
+          <a class="dropdown-item" href="#">Modify Company</a>
+        </div>
+     </li>
+     <li  class="nav-item dropdown" th:if="${@mainController.hasNecessaryRole(#request.userPrincipal,'ROLE_SUPER_ADMIN')}"> 
+     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Super Admin</a>
+       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/addUserPage">Create Admin</a>
+          <a class="dropdown-item" href="/addCompanyPage">Create Company</a>
+          <a class="dropdown-item" href="/getCompanies">See Companies</a>
+          
+        </div>
+     </li>
+    <li  class="nav-item" >  <a class="btn btn-primary" style="position: absolute;right: 0;margin-right: 5px;"  th:if="${#request.userPrincipal != null}" th:href="@{/logout}" >Logout</a></li>
+    </ul>
+    </div>
+  </div>
+</nav>
+</div>
+

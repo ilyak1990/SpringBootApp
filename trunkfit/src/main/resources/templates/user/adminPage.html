@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+   <head>
+      <title th:utext="${title}"></title>
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+      	<script src="https://unpkg.com/jquery@3.3.1/dist/jquery.min.js"></script>    	
+      	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      	<script src="../js/login.js"></script>	   </head>
+   <body>
+      <!-- Include _menu.html -->
+      <th:block th:include="/_menu"></th:block>
+       
+      <h2>Admin Page</h2>
+      <h3>Welcome :
+         <span th:utext="${#request.userPrincipal.name}"></span>
+         <span th:utext="${session.role}"></span>
+      </h3>
+      <b>This is protected page!</b>  
+       
+      <br/><br/>
+       
+      <div th:if="${userInfo != null}" th:utext="${@mainController.hasNecessaryRole(#request.userPrincipal,'ROLE_USER')}"></div>
+       
+   </body>
+    
+</html>

@@ -2,9 +2,9 @@ package com.trunkfit.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.Map;
 import javax.sql.DataSource;
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import com.trunkfit.mapper.AppUserMapper;
 import com.trunkfit.model.AppUser;
+import com.trunkfit.utils.SQLUtils;
  
 @Repository
 @Transactional
@@ -28,9 +29,9 @@ public class AppUserDao extends JdbcDaoSupport {
     }
     
  
-    public AppUser findUserAccount(String userName) {
+    public AppUser findUserAccountByUsername(String userName) {
         // Select .. from App_User u Where u.User_Name = ?
-        String sql = AppUserMapper.BASE_SQL + " where u.User_Name = ? ";
+        String sql = SQLUtils.BASE_SQL + " where u.User_Name = ? ";
  
         Object[] params = new Object[] { userName };
         AppUserMapper mapper = new AppUserMapper();
@@ -42,16 +43,51 @@ public class AppUserDao extends JdbcDaoSupport {
             return null;
         }
     }
+    public AppUser findUserAccountByConfirmationToken(String confirmationToken) {
+      // Select .. from App_User u Where u.User_Name = ?
+      String sql = SQLUtils.BASE_SQL + " where u.confirmation_token = ? ";
+System.out.println("sql statement " + sql + confirmationToken);
+      Object[] params = new Object[] { confirmationToken };
+      AppUserMapper mapper = new AppUserMapper();
+      try {
+          AppUser userInfo = this.getJdbcTemplate().queryForObject(sql, params, mapper);
+          System.out.println(" user by token " + userInfo);
+          return userInfo;
+      } catch (EmptyResultDataAccessException e) {
+          return null;
+      }
+  }
+    public boolean removeToken(String userName) {
+      // Select .. from App_User u Where u.User_Name = ?
+      String sql = SQLUtils.basicUpdateStatement("app_user",Collections.singletonMap("confirmation_token", "null"),"user_name = '"+ userName+"'");
+          int updatedUser = this.getJdbcTemplate().update(sql);
+          System.out.println( " update result(removing token)"+updatedUser);
+          return updatedUser==1;
+      
+  }
+    
+    public boolean activateUser(String userName) {
+      // Select .. from App_User u Where u.User_Name = ?
+      String sql = SQLUtils.basicUpdateStatement("app_user",Collections.singletonMap("verified", "true"),"user_name = '" + userName + "'");
+      System.out.println(sql + " update result (activated)");
+
+          int updatedUser = this.getJdbcTemplate().update(sql);
+          System.out.println(updatedUser + " update result (activated)");
+          return updatedUser==1;
+      
+  }
     public boolean addUser(AppUser user) {
       String username = user.getUserName();
       String encryptedPassword = user.getEncrytedPassword();
+      String confirmationToken = user.getConfirmationToken();
+
       System.out.println("fffffff" + user);
       if(this.doesUserExist(user.getUserName())) {
         return false;
       }
-     String userSQL ="INSERT INTO app_user(user_name, encryted_password,enabled) VALUES(?,?,?) RETURNING user_id";
+     String userSQL ="INSERT INTO app_user(user_name, encryted_password,enabled,confirmation_token) VALUES(?,?,?,?) RETURNING user_id";
      System.out.println(userSQL);
-     Object[] params = new Object[] { username , encryptedPassword, 0};
+     Object[] params = new Object[] { username , encryptedPassword, true, confirmationToken};
 
      String userId = getJdbcTemplate().query(userSQL,params, new ResultSetExtractor<String>() {
        @Override

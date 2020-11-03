@@ -73,4 +73,22 @@ public class CompanyDao extends JdbcDaoSupport {
      return !StringUtils.isEmpty(companyId);
      
 }
+    public boolean removeCompany(Company company) {
+      System.out.println(company);
+
+     String userSQL ="INSERT INTO company(name) VALUES(?) RETURNING company_id";
+     System.out.println(userSQL);
+     Object[] params = new Object[] { company.getCompanyName()};
+
+     String companyId = getJdbcTemplate().query(userSQL,params, new ResultSetExtractor<String>() {
+       @Override
+       public String extractData(ResultSet rs) throws SQLException,
+                                                      DataAccessException {
+           return rs.next() ? rs.getString("company_id") : null;
+       }
+   });
+     
+     return !StringUtils.isEmpty(companyId);
+     
+}
 }

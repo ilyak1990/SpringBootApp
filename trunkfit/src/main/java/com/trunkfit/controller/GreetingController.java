@@ -39,6 +39,6 @@ public class GreetingController {
         throw new Exception("invalid username or password");
       }
       System.out.println(authRequest.getUserName() + " fafsadfsdfdsf");
-      return jwtUtil.generateToken(authRequest.getUserName());
+      return jwtUtil.generateToken(authRequest.getUserName(),true);
     }
 }

@@ -10,8 +10,6 @@ import com.trunkfit.model.AppUser;
  
 public class AppUserMapper implements RowMapper<AppUser> {
  
-    public static final String BASE_SQL //
-            = "Select u.User_Id, u.User_Name, u.Encryted_Password From App_User u ";
  
     @Override
     public AppUser mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -19,8 +17,12 @@ public class AppUserMapper implements RowMapper<AppUser> {
         Long userId = rs.getLong("User_Id");
         String userName = rs.getString("User_Name");
         String encrytedPassword = rs.getString("Encryted_Password");
-        System.out.println("mapping fir syre");
-        return new AppUser(userId, userName, encrytedPassword, "USER");
+        String confirmationToken = rs.getString("confirmation_token");
+        boolean isVerified = rs.getBoolean("verified");
+        boolean isEnabled = rs.getBoolean("enabled");
+
+        System.out.println("mapping user");
+        return new AppUser(userId, userName, encrytedPassword, "USER", confirmationToken,isVerified,isEnabled);
     }
  
 }
